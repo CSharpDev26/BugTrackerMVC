@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data.Entity;
 using BugTracker.Models;
+using System.Web.Helpers;
 
 namespace BugTracker.DataAccess
 {
@@ -11,6 +12,8 @@ namespace BugTracker.DataAccess
     {
         public BugTrackerContext() { }
         public DbSet<Bug> bugs { get; set; }
+        public DbSet<User> users { get; set; }
+        public DbSet<UserViewModel> userViewModels { get; set; }
     }
 
     public class DataOperations
@@ -59,6 +62,41 @@ namespace BugTracker.DataAccess
             {
                 return false;
             }
+        }
+
+        public bool userLogin(User user) {
+            var account = db.users.Where(x => x.accountName == user.accountName).FirstOrDefault();
+            if (account != null)
+            {
+                if (Crypto.VerifyHashedPassword(account.password, user.password))
+                    return true;
+                else
+                    return false;
+            }
+            else
+                return false;
+        }
+        public bool register(UserViewModel user) {
+            var userdata = db.users.Where(x => x.accountName == user.accountName);
+            if (user.password != user.confirmPassword && userdata != null)
+                return false;
+            else
+            {
+                try
+                {
+                    User temp = new User();
+                    temp.accountName = user.accountName;
+                    temp.authority = user.authority;
+                    temp.password = Crypto.HashPassword(user.password);
+                    db.users.Add(temp);
+                    db.SaveChanges();
+                    return true;
+            }
+                catch
+            {
+                return false;
+            }
+        }
         }
     }
 }

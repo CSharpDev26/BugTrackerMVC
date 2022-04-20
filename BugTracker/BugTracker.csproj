@@ -146,6 +146,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Bugs.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -283,11 +285,12 @@
     <Content Include="Views\BugTracker\AddBug.cshtml" />
     <Content Include="Views\BugTracker\BugDetails.cshtml" />
     <Content Include="Views\BugTracker\BugModify.cshtml" />
+    <Content Include="Views\LoginSystem\Login.cshtml" />
+    <Content Include="Views\LoginSystem\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="DataBase\" />
-    <Folder Include="Views\LoginSystem\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

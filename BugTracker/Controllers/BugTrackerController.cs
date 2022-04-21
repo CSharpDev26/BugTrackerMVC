@@ -14,11 +14,17 @@ namespace BugTracker.Controllers
         // GET: BugTracker
         public ActionResult Index()
         {
-            return View(dataOperations.getBugs());
+            if (Session["username"] != null)
+                return View(dataOperations.getBugs());
+            else
+                return RedirectToAction("Login", "LoginSystem");
         }
         public ActionResult AddBug()
         {
-            return View();
+            if (Session["username"] != null)
+                return View();
+            else
+                return RedirectToAction("Login", "LoginSystem");
         }
         [HttpPost]
         public ActionResult AddBug(Bug bug)
@@ -29,17 +35,26 @@ namespace BugTracker.Controllers
                 return View();
         }
         public ActionResult BugDetails(int id) {
+            if(Session["username"] != null)
             return View(dataOperations.BugData(id));
+            else
+                return RedirectToAction("Login", "LoginSystem");
         }
         public ActionResult BugModify(int id) {
-
-            List<SelectListItem> items = new List<SelectListItem>();
+            if (Session["username"] != null) { 
+                List<SelectListItem> items = new List<SelectListItem>();
             items.Add(new SelectListItem { Text = "Not yet solved", Value = "Not yet solved" });
-            items.Add(new SelectListItem { Text = "Solved", Value = "Solved" });
+            if((string)Session["authority"] != "programmer")
+            {
+                items.Add(new SelectListItem { Text = "Solved", Value = "Solved" });
+            }
             items.Add(new SelectListItem { Text = "In progress", Value = "In progress"});
             ViewBag.Progress = items;
 
             return View(dataOperations.BugData(id));
+            }
+            else
+                return RedirectToAction("Login", "LoginSystem");
         }
         [HttpPost]
         public ActionResult BugModify(Bug bug)

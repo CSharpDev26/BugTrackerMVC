@@ -64,7 +64,7 @@ namespace BugTracker.DataAccess
             }
         }
 
-        public bool userLogin(User user) {
+        public bool userLogin(UserViewModel user) {
             var account = db.users.Where(x => x.accountName == user.accountName).FirstOrDefault();
             if (account != null)
             {
@@ -76,6 +76,12 @@ namespace BugTracker.DataAccess
             else
                 return false;
         }
+
+        public string getAuthority(string accName) {
+            var userData = db.users.Where(x => x.accountName == accName).FirstOrDefault();
+            return userData.authority;
+        }
+
         public bool register(UserViewModel user) {
             var userdata = db.users.Where(x => x.accountName == user.accountName);
             if (user.password != user.confirmPassword && userdata != null)

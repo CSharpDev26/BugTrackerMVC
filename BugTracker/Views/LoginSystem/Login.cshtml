@@ -1,4 +1,4 @@
-﻿@model BugTracker.Models.User
+﻿@model BugTracker.Models.UserViewModel
 
 @{
     ViewBag.Title = "Login";
@@ -11,7 +11,7 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>User</h4>
+        <h4>UserViewModel</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
@@ -35,8 +35,5 @@
                 <input type="submit" value="Login" class="btn btn-default" />
             </div>
         </div>
-    </div>
-    <div>
-        @Html.ActionLink("No account?", "Register", new {})
     </div>
 }

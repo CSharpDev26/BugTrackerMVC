@@ -16,28 +16,48 @@ namespace BugTracker.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Login(User user)
+        public ActionResult Login(UserViewModel user)
         {
             if (dataOperations.userLogin(user))
+            {
+                Session["username"] = user.accountName;
+                Session["authority"] = dataOperations.getAuthority(user.accountName);
                 return RedirectToAction("Index", "BugTracker");
+            }
             else
                 return View(user);
         }
         public ActionResult Register()
         {
-            List<SelectListItem> items = new List<SelectListItem>();
-            items.Add(new SelectListItem { Text = "manager", Value = "manager" });
-            items.Add(new SelectListItem { Text = "programmer", Value = "programmer" });
-            ViewBag.Auth = items;
-            return View();
+            if ((string)Session["authority"] == "admin")
+            {
+                List<SelectListItem> items = new List<SelectListItem>();
+                items.Add(new SelectListItem { Text = "Manager", Value = "manager" });
+                items.Add(new SelectListItem { Text = "Programmer", Value = "programmer" });
+                items.Add(new SelectListItem { Text = "Admin", Value = "admin" });
+                ViewBag.Auth = items;
+                return View();
+            }
+            else
+            {
+                Session.Abandon();
+                return RedirectToAction("Login", "LoginSystem");
+            }
+               
         }
         [HttpPost]
         public ActionResult Register(UserViewModel user)
         {
-            if (dataOperations.register(user)) //login
+            if (dataOperations.register(user))
+            { 
                 return RedirectToAction("Index", "BugTracker");
-            else//message?
+            }
+            else
                 return View();
+        }
+        public ActionResult LogOut() {
+            Session.Abandon();
+            return RedirectToAction("Login");
         }
     }
 }

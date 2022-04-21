@@ -23,7 +23,31 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>
+                        @{
+                            if (Session["username"] != null)
+                            {
+                                @Html.ActionLink("Log out", "Logout", "LoginSystem");
+                            }
+                        }
+                    </li>
+                    <li>
+                        @{
+                            if ((string)Session["authority"] == "admin")
+                            {
+                                @Html.ActionLink("Register", "Register", "LoginSystem");
+                            }
+                        }
+                    </li>
                 </ul>
+            </div>
+            <div>
+                    @{
+                        if (@Session["authority"] != null)
+                        {
+                            <label>Welcome, @Session["authority"]!</label>
+                        }
+                    }
             </div>
         </div>
     </div>

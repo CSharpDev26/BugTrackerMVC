@@ -4,9 +4,6 @@
     ViewBag.Title = "Index";
 }
 
-<p>
-    @Html.ActionLink("New bug", "AddBug")
-</p>
 <table class="table">
     <tr>
         <th>
@@ -27,7 +24,8 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model)
+{
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.bugId)
@@ -45,10 +43,23 @@
             @Html.DisplayFor(modelItem => item.solution)
         </td>
         <td>
-            @Html.ActionLink("Modify", "BugModify", new {  id=item.bugId  }) |
-            @Html.ActionLink("Details", "BugDetails", new { id = item.bugId }) 
+            @{
+                if ((string)Session["authority"] != "admin")
+                {
+                    @Html.ActionLink("Modify", "BugModify", new { id = item.bugId })
+                }
+             }
+            |@Html.ActionLink("Details", "BugDetails", new { id = item.bugId })
         </td>
     </tr>
 }
 
 </table>
+<p>
+    @{
+        if ((string)Session["authority"] != "admin")
+        {
+            @Html.ActionLink("New bug", "AddBug")
+        }
+    }
+</p>

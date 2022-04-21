@@ -285,8 +285,8 @@
     <Content Include="Views\BugTracker\AddBug.cshtml" />
     <Content Include="Views\BugTracker\BugDetails.cshtml" />
     <Content Include="Views\BugTracker\BugModify.cshtml" />
-    <Content Include="Views\LoginSystem\Login.cshtml" />
     <Content Include="Views\LoginSystem\Register.cshtml" />
+    <Content Include="Views\LoginSystem\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

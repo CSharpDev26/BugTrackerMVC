@@ -45,6 +45,11 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Modify", "BugModify", new { id = Model.bugId }) |
-    @Html.ActionLink("Back to List", "Index")
+    @{
+        if ((string)Session["authority"] != "admin")
+        {
+            @Html.ActionLink("Modify", "BugModify", new { id = Model.bugId })
+        }
+    }
+    |@Html.ActionLink("Back to List", "Index")
 </p>

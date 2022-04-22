@@ -43,9 +43,9 @@
             </div>
             <div>
                     @{
-                        if (@Session["authority"] != null)
+                        if (@Session["username"] != null)
                         {
-                            <label>Welcome, @Session["authority"]!</label>
+                            <label>Welcome, @Session["username"]!</label>
                         }
                     }
             </div>

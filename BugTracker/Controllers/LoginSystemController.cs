@@ -35,6 +35,7 @@ namespace BugTracker.Controllers
                 items.Add(new SelectListItem { Text = "Manager", Value = "manager" });
                 items.Add(new SelectListItem { Text = "Programmer", Value = "programmer" });
                 items.Add(new SelectListItem { Text = "Admin", Value = "admin" });
+                items.Add(new SelectListItem { Text = "Tester", Value = "tester" });
                 ViewBag.Auth = items;
                 return View();
             }

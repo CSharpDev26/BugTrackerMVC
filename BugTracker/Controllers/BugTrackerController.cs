@@ -21,14 +21,19 @@ namespace BugTracker.Controllers
         }
         public ActionResult AddBug()
         {
-            if (Session["username"] != null)
+            if (Session["username"] != null) {
+                createProjectViewBag();
                 return View();
-            else
+            }
+             else
                 return RedirectToAction("Login", "LoginSystem");
         }
         [HttpPost]
         public ActionResult AddBug(Bug bug)
         {
+            string p = Request.Form["projectalternative"];
+            if (bug.project == "new project" && p != null)
+                bug.project = p;
             if (dataOperations.CreateBug(bug))
                 return RedirectToAction("Index");
             else
@@ -41,17 +46,20 @@ namespace BugTracker.Controllers
                 return RedirectToAction("Login", "LoginSystem");
         }
         public ActionResult BugModify(int id) {
-            if (Session["username"] != null) { 
-                List<SelectListItem> items = new List<SelectListItem>();
-            items.Add(new SelectListItem { Text = "Not yet solved", Value = "Not yet solved" });
-            if((string)Session["authority"] != "programmer")
+            if (Session["username"] != null)
             {
-                items.Add(new SelectListItem { Text = "Solved", Value = "Solved" });
-            }
-            items.Add(new SelectListItem { Text = "In progress", Value = "In progress"});
-            ViewBag.Progress = items;
+                List<SelectListItem> items = new List<SelectListItem>();
+                    items.Add(new SelectListItem { Text = "Not yet solved", Value = "Not yet solved" });
+                if ((string)Session["authority"] != "programmer")
+                {
+                    items.Add(new SelectListItem { Text = "Solved", Value = "Solved" });
+                }
+                items.Add(new SelectListItem { Text = "In progress", Value = "In progress" });
+                ViewBag.Progress = items;
 
-            return View(dataOperations.BugData(id));
+                createProjectViewBag();
+
+                return View(dataOperations.BugData(id));
             }
             else
                 return RedirectToAction("Login", "LoginSystem");
@@ -59,10 +67,23 @@ namespace BugTracker.Controllers
         [HttpPost]
         public ActionResult BugModify(Bug bug)
         {
+            string p = Request.Form["projectalternative"];
+            if (bug.project == "new project" && p != null)
+                bug.project = p;
             if (dataOperations.ModifyBug(bug))
                 return RedirectToAction("BugDetails", new { id = bug.bugId });
             else
                 return View();
+        }
+        private void createProjectViewBag() {
+            List<SelectListItem> projectitems = new List<SelectListItem>();
+            List<string> projectNames = dataOperations.getProjectNames();
+            foreach (string name in projectNames)
+            {
+                projectitems.Add(new SelectListItem { Text = name, Value = name });
+            }
+            projectitems.Add(new SelectListItem { Text = "New project", Value = "new project" });
+            ViewBag.Projects = projectitems;
         }
     }
 }

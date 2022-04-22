@@ -21,6 +21,9 @@
         <th>
             @Html.DisplayNameFor(model => model.solution)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.project)
+        </th>
         <th></th>
     </tr>
 
@@ -43,12 +46,15 @@
             @Html.DisplayFor(modelItem => item.solution)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.project)
+        </td>
+        <td>
             @{
                 if ((string)Session["authority"] != "admin")
                 {
                     @Html.ActionLink("Modify", "BugModify", new { id = item.bugId })
                 }
-             }
+            }
             |@Html.ActionLink("Details", "BugDetails", new { id = item.bugId })
         </td>
     </tr>
@@ -62,4 +68,14 @@
             @Html.ActionLink("New bug", "AddBug")
         }
     }
+    @*<div class="container table-bordered">
+        <div class="row">
+            <div class="col-lg-9">
+                ASD
+            </div>
+            <div class="col-lg-3">
+                ASD2
+            </div>
+        </div>
+    </div>*@
 </p>

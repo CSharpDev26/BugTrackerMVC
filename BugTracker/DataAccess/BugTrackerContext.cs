@@ -30,7 +30,6 @@ namespace BugTracker.DataAccess
             try
             {
                 bug.progress = "Not yet solved";
-                bug.solution = "Not yet solved";
                 db.bugs.Add(bug);
                 db.SaveChanges();
                 return true;
@@ -51,10 +50,16 @@ namespace BugTracker.DataAccess
             try
             {
                 Bug dbBug = db.bugs.Where(b => b.bugId == bug.bugId).First();
-                dbBug.description = bug.description;
-                dbBug.name = bug.name;
-                dbBug.progress = bug.progress;
-                dbBug.solution = bug.solution;
+                if (bug.description != null)
+                    dbBug.description = bug.description;
+                if (bug.name != null)
+                    dbBug.name = bug.name;
+                if(bug.progress != null)
+                    dbBug.progress = bug.progress;
+                if (bug.solution != null)
+                    dbBug.solution = bug.solution;
+                if (bug.project != null)
+                    dbBug.project = bug.project;
                 db.SaveChanges();
                 return true;
             }
@@ -103,6 +108,12 @@ namespace BugTracker.DataAccess
                 return false;
             }
         }
+        }
+
+        public List<string> getProjectNames() {
+            List<string> projects = new List<string>();
+            projects = db.bugs.Select(x => x.project).Distinct().ToList();
+            return projects;
         }
     }
 }

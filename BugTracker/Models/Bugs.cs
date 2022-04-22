@@ -21,5 +21,7 @@ namespace BugTracker.Models
         public string progress { get; set; }
         [Display(Name = "Solution")]
         public string solution { get; set; }
+        [Display(Name = "Project")]
+        public string project { get; set; }
     }
 }

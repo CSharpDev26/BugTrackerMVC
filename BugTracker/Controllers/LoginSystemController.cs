@@ -29,8 +29,8 @@ namespace BugTracker.Controllers
         }
         public ActionResult Register()
         {
-            if ((string)Session["authority"] == "admin")
-            {
+            //if ((string)Session["authority"] == "admin")
+            //{
                 List<SelectListItem> items = new List<SelectListItem>();
                 items.Add(new SelectListItem { Text = "Manager", Value = "manager" });
                 items.Add(new SelectListItem { Text = "Programmer", Value = "programmer" });
@@ -38,12 +38,12 @@ namespace BugTracker.Controllers
                 items.Add(new SelectListItem { Text = "Tester", Value = "tester" });
                 ViewBag.Auth = items;
                 return View();
-            }
-            else
-            {
-                Session.Abandon();
-                return RedirectToAction("Login", "LoginSystem");
-            }
+            //}
+            //else
+            //{
+            //    Session.Abandon();
+            //    return RedirectToAction("Login", "LoginSystem");
+            //}
                
         }
         [HttpPost]

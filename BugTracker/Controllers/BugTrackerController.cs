@@ -12,12 +12,46 @@ namespace BugTracker.Controllers
     {
         private DataOperations dataOperations = new DataOperations();
         // GET: BugTracker
-        public ActionResult Index()
+        public ActionResult Index(string sortParam)
         {
-            if (Session["username"] != null)
-                return View(dataOperations.getBugs());
-            else
-                return RedirectToAction("Login", "LoginSystem");
+            //if (Session["username"] != null)
+            //{
+                ViewBag.NameSortParam = String.IsNullOrEmpty(sortParam) ? "name_desc" : "";
+                ViewBag.ProjectSortParam = sortParam == "project" ? "project_desc" : "project";
+                ViewBag.ProgressSortParam = sortParam == "progress" ? "progress_desc" : "progress";
+                ViewBag.IdSortParam = sortParam == "bugId" ? "bugId_desc" : "bugId";
+                var bugs = dataOperations.getBugs();
+                switch (sortParam)
+                {
+                    case "name_desc":
+                        bugs = bugs.OrderByDescending(b => b.name);
+                        break;
+                    case "project_desc":
+                        bugs = bugs.OrderByDescending(b => b.project);
+                        break;
+                    case "project":
+                        bugs = bugs.OrderBy(b => b.project);
+                        break;
+                    case "progress_desc":
+                        bugs = bugs.OrderByDescending(b => b.progress);
+                        break;
+                    case "progress":
+                        bugs = bugs.OrderBy(b => b.progress);
+                        break;
+                    case "bugId":
+                        bugs = bugs.OrderBy(b => b.bugId);
+                        break;
+                    case "bugId_desc":
+                        bugs = bugs.OrderByDescending(b => b.bugId);
+                        break;
+                    default:
+                        bugs = bugs.OrderBy(b => b.name);
+                        break;
+                }
+                return View(bugs);
+            //}
+            //else
+            //    return RedirectToAction("Login", "LoginSystem");
         }
         public ActionResult AddBug()
         {

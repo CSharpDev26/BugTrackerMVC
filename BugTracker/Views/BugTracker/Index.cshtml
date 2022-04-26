@@ -6,49 +6,64 @@
 
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.bugId)
+        <th class="col-md-1 center-block text-center">
+            @Html.ActionLink("BugId", "Index", new { sortParam = ViewBag.IdSortParam })
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.name)
+        <th class="col-md-1 center-block text-center">
+           @Html.ActionLink("Name","Index", new { sortParam = ViewBag.NameSortParam })
         </th>
-        <th>
+        <th class="col-md-3 center-block text-center">
             @Html.DisplayNameFor(model => model.description)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.progress)
+        <th class="col-md-1 center-block text-center">
+            @Html.ActionLink("Progress", "Index", new { sortParam = ViewBag.ProgressSortParam })
         </th>
-        <th>
+        <th class="col-md-2 center-block text-center">
             @Html.DisplayNameFor(model => model.solution)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.project)
+        <th class="col-md-1 center-block text-center">
+           @Html.ActionLink("Project","Index",new {sortParam = ViewBag.ProjectSortParam })
         </th>
-        <th></th>
+        <th class="col-md-2 center-block text-center"></th>
     </tr>
 
 @foreach (var item in Model)
 {
     <tr>
-        <td>
+        <td class="col-md-1 center-block text-center">
             @Html.DisplayFor(modelItem => item.bugId)
         </td>
-        <td>
+        <td class="col-md-1 center-block text-center">
             @Html.DisplayFor(modelItem => item.name)
         </td>
-        <td>
+        <td class="col-md-3 center-block">
             @Html.DisplayFor(modelItem => item.description)
         </td>
-        <td>
+        @{if (item.progress == "Solved")
+            {
+        <td class="table-success col-md-1 center-block text-center">
             @Html.DisplayFor(modelItem => item.progress)
         </td>
-        <td>
+            }
+            else if (item.progress == "In progress")
+            {
+        <td class="table-warning col-md-1 center-block text-center">
+            @Html.DisplayFor(modelItem => item.progress)
+        </td>
+            }
+            else {
+        <td class="table-danger col-md-1 center-block text-center">
+            @Html.DisplayFor(modelItem => item.progress)
+        </td>
+            }
+          }
+        <td class="col-md-2 center-block">
             @Html.DisplayFor(modelItem => item.solution)
         </td>
-        <td>
+        <td class="col-md-1 center-block text-center" >
             @Html.DisplayFor(modelItem => item.project)
         </td>
-        <td>
+        <td class="col-md-2 center-block text-center">
             @{
                 if ((string)Session["authority"] != "admin")
                 {
@@ -65,17 +80,7 @@
     @{
         if ((string)Session["authority"] != "admin")
         {
-            @Html.ActionLink("New bug", "AddBug")
+            @*@Html.ActionLink("New bug", "AddBug","BugTracker",new {@class = "" })*@
         }
     }
-    @*<div class="container table-bordered">
-        <div class="row">
-            <div class="col-lg-9">
-                ASD
-            </div>
-            <div class="col-lg-3">
-                ASD2
-            </div>
-        </div>
-    </div>*@
 </p>

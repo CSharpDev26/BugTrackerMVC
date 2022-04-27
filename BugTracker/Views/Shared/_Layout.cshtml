@@ -8,26 +8,29 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div>
-        @{
-            if (@Session["username"] != null)
-            {
-                <div class="row">
-                <label class="col-md-offset-10">Welcome, @Session["username"]!</label>
-                <label class="col-md-offset-11">@Html.ActionLink("Logout", "LogOut", "LoginSystem")</label>
-            }
-            if ((string)Session["authority"] == "admin")
-            {
-                <label class="col-md-offset-9"> @Html.ActionLink("Register", "Register", "LoginSystem")</label>
-            }
-        }
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-    </div>
+    <div class="container-fluid">
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    @{
+                        if (@Session["username"] != null)
+                        {
+                            <li class="text-center center-block">Welcome, @Session["username"]!</li>
+                            <li>@Html.ActionLink("Logout", "LogOut", "LoginSystem")</li>
+                        }
+                        if ((string)Session["authority"] == "admin")
+                        {
+                            <li> @Html.ActionLink("Register", "Register", "LoginSystem")</li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+            <div class="container body-content">
+                @RenderBody()
+            </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+            @Scripts.Render("~/bundles/jquery")
+            @Scripts.Render("~/bundles/bootstrap")
+            @RenderSection("scripts", required: false)
 </body>
 </html>

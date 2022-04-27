@@ -26,6 +26,7 @@ namespace BugTracker.DataAccess
                        select e;
             return bugs;
         }
+
         public bool CreateBug(Bug bug) {
             try
             {
@@ -39,12 +40,14 @@ namespace BugTracker.DataAccess
                 return false;
             }
         }
+
         public Bug BugData(int id) {
             var bug = from e in db.bugs
                       where e.bugId == id
                       select e;
             return bug.SingleOrDefault();
         }
+
         public bool ModifyBug(Bug bug)
         {
             try

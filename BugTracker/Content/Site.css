@@ -3,6 +3,7 @@
     padding-bottom: 20px;
     background-color:#FDF6C5;
     justify-content:center;
+    font-family:BakkerVille;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -35,4 +36,16 @@ background-color: red;
 }
 .table-danger {
     background-color: indianred;
+}
+.actionlinks {
+background-color:aqua;
+color:red;
+padding:2px 2px 2px 2px;
+}
+.actionlinks:hover {
+background-color: lightgreen;
+color: red;
+}
+.errormessage {
+color:red;
 }

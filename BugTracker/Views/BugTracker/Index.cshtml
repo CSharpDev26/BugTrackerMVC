@@ -1,16 +1,22 @@
 ﻿@model IEnumerable<BugTracker.Models.Bug>
-
 @{
     ViewBag.Title = "Index";
 }
-
+<p>
+    @{
+        if ((string)Session["authority"] != "admin")
+        {
+            @Html.ActionLink("New bug", "AddBug", "BugTracker", new { }, new { @class = "actionlinks" })
+        }
+    }
+</p>
 <table class="table">
     <tr>
         <th class="col-md-1 center-block text-center">
             @Html.ActionLink("BugId", "Index", new { sortParam = ViewBag.IdSortParam })
         </th>
         <th class="col-md-1 center-block text-center">
-           @Html.ActionLink("Name","Index", new { sortParam = ViewBag.NameSortParam })
+            @Html.ActionLink("Name", "Index", new { sortParam = ViewBag.NameSortParam })
         </th>
         <th class="col-md-3 center-block text-center">
             @Html.DisplayNameFor(model => model.description)
@@ -22,65 +28,59 @@
             @Html.DisplayNameFor(model => model.solution)
         </th>
         <th class="col-md-1 center-block text-center">
-           @Html.ActionLink("Project","Index",new {sortParam = ViewBag.ProjectSortParam })
+            @Html.ActionLink("Project", "Index", new { sortParam = ViewBag.ProjectSortParam })
         </th>
         <th class="col-md-2 center-block text-center"></th>
     </tr>
 
-@foreach (var item in Model)
-{
-    <tr>
-        <td class="col-md-1 center-block text-center">
-            @Html.DisplayFor(modelItem => item.bugId)
-        </td>
-        <td class="col-md-1 center-block text-center">
-            @Html.DisplayFor(modelItem => item.name)
-        </td>
-        <td class="col-md-3 center-block">
-            @Html.DisplayFor(modelItem => item.description)
-        </td>
-        @{if (item.progress == "Solved")
-            {
-        <td class="table-success col-md-1 center-block text-center">
-            @Html.DisplayFor(modelItem => item.progress)
-        </td>
-            }
-            else if (item.progress == "In progress")
-            {
-        <td class="table-warning col-md-1 center-block text-center">
-            @Html.DisplayFor(modelItem => item.progress)
-        </td>
-            }
-            else {
-        <td class="table-danger col-md-1 center-block text-center">
-            @Html.DisplayFor(modelItem => item.progress)
-        </td>
-            }
-          }
-        <td class="col-md-2 center-block">
-            @Html.DisplayFor(modelItem => item.solution)
-        </td>
-        <td class="col-md-1 center-block text-center" >
-            @Html.DisplayFor(modelItem => item.project)
-        </td>
-        <td class="col-md-2 center-block text-center">
-            @{
-                if ((string)Session["authority"] != "admin")
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td class="col-md-1 center-block text-center">
+                @Html.DisplayFor(modelItem => item.bugId)
+            </td>
+            <td class="col-md-1 center-block text-center">
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td class="col-md-3 center-block">
+                @Html.DisplayFor(modelItem => item.description)
+            </td>
+            @{if (item.progress == "Solved")
                 {
-                    @Html.ActionLink("Modify", "BugModify", new { id = item.bugId })
+                    <td class="table-success col-md-1 center-block text-center">
+                        @Html.DisplayFor(modelItem => item.progress)
+                    </td>
+                }
+                else if (item.progress == "In progress")
+                {
+                    <td class="table-warning col-md-1 center-block text-center">
+                        @Html.DisplayFor(modelItem => item.progress)
+                    </td>
+                }
+                else
+                {
+                    <td class="table-danger col-md-1 center-block text-center">
+                        @Html.DisplayFor(modelItem => item.progress)
+                    </td>
                 }
             }
-            |@Html.ActionLink("Details", "BugDetails", new { id = item.bugId })
-        </td>
-    </tr>
-}
+            <td class="col-md-2 center-block">
+                @Html.DisplayFor(modelItem => item.solution)
+            </td>
+            <td class="col-md-1 center-block text-center">
+                @Html.DisplayFor(modelItem => item.project)
+            </td>
+            <td class="col-md-2 center-block text-center">
+                @{
+                    if ((string)Session["authority"] != "admin")
+                    {
+                        @Html.ActionLink("Modify", "BugModify", new { id = item.bugId }, new { @class = "actionlinks" })
+                    }
+                }
+                |@Html.ActionLink("Details", "BugDetails", new { id = item.bugId }, new { @class = "actionlinks" })
+            </td>
+        </tr>
+    }
 
 </table>
-<p>
-    @{
-        if ((string)Session["authority"] != "admin")
-        {
-            @*@Html.ActionLink("New bug", "AddBug","BugTracker",new {@class = "" })*@
-        }
-    }
-</p>
+

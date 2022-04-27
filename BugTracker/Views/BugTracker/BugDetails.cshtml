@@ -4,28 +4,11 @@
     ViewBag.Title = "BugDetails";
 }
 
-<h2>BugDetails</h2>
+<h2 class="col-md-offset-5">Bug Details</h2>
 
-<div>
-    <h4>Bug</h4>
+<div class="col-md-12 col-md-offset-3">
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.progress)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.progress)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.solution)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.solution)
-        </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.name)
         </dt>
@@ -35,12 +18,29 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.description)
+            @Html.DisplayNameFor(model => model.progress)
         </dt>
 
         <dd>
+            @Html.DisplayFor(model => model.progress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.description)
+        </dt>
+
+        <dd style="max-width:20%;">
             @Html.DisplayFor(model => model.description)
         </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.solution)
+        </dt>
+
+        <dd style="max-width:20%;">
+            @Html.DisplayFor(model => model.solution)
+        </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.project)
         </dt>
@@ -50,13 +50,16 @@
         </dd>
 
     </dl>
-</div>
-<p>
-    @{
-        if ((string)Session["authority"] != "admin")
-        {
-            @Html.ActionLink("Modify", "BugModify", new { id = Model.bugId })
+    <p class="col-md-offset-2">
+        @{
+            if ((string)Session["authority"] != "admin")
+            {
+                @Html.ActionLink("Modify", "BugModify", new { id = Model.bugId }, new { @class = "actionlinks" })
+            }
         }
-    }
-    |@Html.ActionLink("Back to List", "Index")
-</p>
+       |     @Html.ActionLink("Back to List", "Index", new { }, new { @class = "actionlinks" })
+    </p>
+</div>
+
+    
+

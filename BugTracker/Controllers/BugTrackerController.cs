@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using BugTracker.DataAccess;
 using BugTracker.Models;
@@ -11,11 +10,11 @@ namespace BugTracker.Controllers
     public class BugTrackerController : Controller
     {
         private DataOperations dataOperations = new DataOperations();
-        // GET: BugTracker
+
         public ActionResult Index(string sortParam)
         {
-            //if (Session["username"] != null)
-            //{
+            if (Session["username"] != null)
+            {
                 ViewBag.NameSortParam = String.IsNullOrEmpty(sortParam) ? "name_desc" : "";
                 ViewBag.ProjectSortParam = sortParam == "project" ? "project_desc" : "project";
                 ViewBag.ProgressSortParam = sortParam == "progress" ? "progress_desc" : "progress";
@@ -49,19 +48,22 @@ namespace BugTracker.Controllers
                         break;
                 }
                 return View(bugs);
-            //}
-            //else
-            //    return RedirectToAction("Login", "LoginSystem");
+            }
+            else
+                return RedirectToAction("Login", "LoginSystem");
         }
+
         public ActionResult AddBug()
         {
-            if (Session["username"] != null) {
+            if (Session["username"] != null)
+            {
                 createProjectViewBag();
                 return View();
             }
-             else
+            else
                 return RedirectToAction("Login", "LoginSystem");
         }
+
         [HttpPost]
         public ActionResult AddBug(Bug bug)
         {
@@ -71,26 +73,26 @@ namespace BugTracker.Controllers
             if (dataOperations.CreateBug(bug))
                 return RedirectToAction("Index");
             else
-                return View();
-        }
+            {
+                createProjectViewBag();
+                ViewBag.Error = "Incorrect data!";
+                return View(bug);
+            }
+        } 
+
         public ActionResult BugDetails(int id) {
-            if(Session["username"] != null)
-            return View(dataOperations.BugData(id));
+            if (Session["username"] != null)
+                return View(dataOperations.BugData(id));
             else
                 return RedirectToAction("Login", "LoginSystem");
         }
-        public ActionResult BugModify(int id) {
+
+        public ActionResult BugModify(int id)
+        {
             if (Session["username"] != null)
             {
-                List<SelectListItem> items = new List<SelectListItem>();
-                    items.Add(new SelectListItem { Text = "Not yet solved", Value = "Not yet solved" });
-                if ((string)Session["authority"] != "programmer")
-                {
-                    items.Add(new SelectListItem { Text = "Solved", Value = "Solved" });
-                }
-                items.Add(new SelectListItem { Text = "In progress", Value = "In progress" });
-                ViewBag.Progress = items;
 
+                createProgressViewBag();
                 createProjectViewBag();
 
                 return View(dataOperations.BugData(id));
@@ -98,6 +100,7 @@ namespace BugTracker.Controllers
             else
                 return RedirectToAction("Login", "LoginSystem");
         }
+
         [HttpPost]
         public ActionResult BugModify(Bug bug)
         {
@@ -107,8 +110,15 @@ namespace BugTracker.Controllers
             if (dataOperations.ModifyBug(bug))
                 return RedirectToAction("BugDetails", new { id = bug.bugId });
             else
-                return View();
+            {
+                createProgressViewBag();
+                createProjectViewBag();
+                ViewBag.Error = "Incorrect data!"; 
+                return View(bug);
+            }
+                
         }
+
         private void createProjectViewBag() {
             List<SelectListItem> projectitems = new List<SelectListItem>();
             List<string> projectNames = dataOperations.getProjectNames();
@@ -118,6 +128,17 @@ namespace BugTracker.Controllers
             }
             projectitems.Add(new SelectListItem { Text = "New project", Value = "new project" });
             ViewBag.Projects = projectitems;
+        }
+
+        private void createProgressViewBag() {
+            List<SelectListItem> items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = "Not yet solved", Value = "Not yet solved" });
+            if ((string)Session["authority"] != "programmer")
+            {
+                items.Add(new SelectListItem { Text = "Solved", Value = "Solved" });
+            }
+            items.Add(new SelectListItem { Text = "In progress", Value = "In progress" });
+            ViewBag.Progress = items;
         }
     }
 }

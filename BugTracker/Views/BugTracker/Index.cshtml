@@ -1,4 +1,6 @@
-﻿@model IEnumerable<BugTracker.Models.Bug>
+﻿@model PagedList.IPagedList<BugTracker.Models.Bug>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
     ViewBag.Title = "Index";
 }
@@ -19,13 +21,13 @@
             @Html.ActionLink("Name", "Index", new { sortParam = ViewBag.NameSortParam })
         </th>
         <th class="col-md-3 center-block text-center">
-            @Html.DisplayNameFor(model => model.description)
+            @Html.Label("Description")
         </th>
         <th class="col-md-1 center-block text-center">
             @Html.ActionLink("Progress", "Index", new { sortParam = ViewBag.ProgressSortParam })
         </th>
         <th class="col-md-2 center-block text-center">
-            @Html.DisplayNameFor(model => model.solution)
+            @Html.Label("Solution")
         </th>
         <th class="col-md-1 center-block text-center">
             @Html.ActionLink("Project", "Index", new { sortParam = ViewBag.ProjectSortParam })
@@ -81,6 +83,10 @@
             </td>
         </tr>
     }
-
 </table>
+<br />
+<div class="col-md-offset-6">
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortParam = ViewBag.CurrentSort}))
+</div>
 

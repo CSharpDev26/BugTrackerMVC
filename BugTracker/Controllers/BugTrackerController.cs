@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using BugTracker.DataAccess;
 using BugTracker.Models;
+using PagedList;
 
 namespace BugTracker.Controllers
 {
@@ -11,10 +12,11 @@ namespace BugTracker.Controllers
     {
         private DataOperations dataOperations = new DataOperations();
 
-        public ActionResult Index(string sortParam)
+        public ActionResult Index(string sortParam, int? page)
         {
             if (Session["username"] != null)
             {
+                ViewBag.CurrentSort = sortParam;
                 ViewBag.NameSortParam = String.IsNullOrEmpty(sortParam) ? "name_desc" : "";
                 ViewBag.ProjectSortParam = sortParam == "project" ? "project_desc" : "project";
                 ViewBag.ProgressSortParam = sortParam == "progress" ? "progress_desc" : "progress";
@@ -47,7 +49,9 @@ namespace BugTracker.Controllers
                         bugs = bugs.OrderBy(b => b.name);
                         break;
                 }
-                return View(bugs);
+                int pageSize = 10;
+                int pageNumber = (page ?? 1);
+                return View(bugs.ToPagedList(pageNumber, pageSize));
             }
             else
                 return RedirectToAction("Login", "LoginSystem");
